@@ -41392,7 +41392,7 @@ BEGIN
 */
 WITH C
 AS (SELECT V.SrcList
-         , CAST('' AS nvarchar(MAX)) AS Name
+         , CAST('' AS nvarchar(MAX)) AS name
          , V.DBList
          , 0 AS InBracket
          , 0 AS Quoted
@@ -41410,7 +41410,7 @@ AS (SELECT V.SrcList
           AND C.InBracket = 0
     UNION ALL
     SELECT C.SrcList
-         , CONCAT(C.Name, SUBSTRING(C.DBList, 1, V.Place + W.DoubleBracket - 1)) /*Accumulates only one ] if escaped]] or none if end]*/ 
+         , CONCAT(C.name, SUBSTRING(C.DBList, 1, V.Place + W.DoubleBracket - 1)) /*Accumulates only one ] if escaped]] or none if end]*/ 
          , STUFF(C.DBList, 1, V.Place + W.DoubleBracket, '')
          , W.DoubleBracket
          , 1
@@ -41423,11 +41423,11 @@ AS (SELECT V.SrcList
 AS (SELECT C.SrcList
          , IIF(C.Quoted = 0
                 ,SUBSTRING(C.name, PATINDEX(@NoSpaces, name), DATALENGTH (name)/2 - PATINDEX(@NoSpaces, name) - PATINDEX(@NoSpaces, REVERSE(name))+2)
-             , C.Name) 
+             , C.name) 
  AS name
     FROM C
     WHERE C.InBracket = 0
-          AND C.Name > '')
+          AND C.name > '')
  SELECT d.database_id
      , d.name
      , d.is_distributor
